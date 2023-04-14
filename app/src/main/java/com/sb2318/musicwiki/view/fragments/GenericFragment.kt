@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sb2318.musicwiki.R
@@ -17,16 +20,22 @@ import com.sb2318.musicwiki.view.MainActivity
 import com.sb2318.musicwiki.view.adapters.TagAdapter
 import com.sb2318.musicwiki.viewModel.GenericViewModel
 
-class GenericFragment: Fragment() {
+class GenericFragment: Fragment(), TagAdapter.ClickHandler {
 
     private lateinit var binding:GenericLayoutScreenBinding
     private lateinit var adapter:TagAdapter
     private lateinit var layoutManager:LinearLayoutManager
+    private lateinit var fragment: NavHostFragment
+    private lateinit var navController: NavController
 
-    private val viewModel by lazy {
-        ViewModelProvider(this,
-            ViewModelProvider.AndroidViewModelFactory(requireActivity().application))[GenericViewModel::class.java]
-         }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fragment =
+            (requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
+
+        navController = fragment.navController
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,15 +49,16 @@ class GenericFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val activity = requireActivity() as MainActivity
 
-        viewModel.getGeneres(getString(R.string.api_key))
+        activity.viewModel.getGeneres(getString(R.string.api_key))
 
         //Observe all the generes
-        viewModel.listTopTags.observe(requireActivity()){ tags->
+        activity.viewModel.listTopTags.observe(requireActivity()){ tags->
 
             tags?.let{
                 layoutManager= GridLayoutManager(requireContext(),3)
-                adapter= TagAdapter(tags)
+                adapter= TagAdapter(tags,this@GenericFragment)
 
                 binding.genericRecycler.adapter= adapter
                 binding.genericRecycler.layoutManager= layoutManager
@@ -71,5 +81,12 @@ class GenericFragment: Fragment() {
 
         }
 
+
+    }
+
+    override fun onClick(tag: Tag) {
+
+         val actions =GenericFragmentDirections.actionGenericFragmentToDetailsFragment(tag.name)
+          navController.navigate(actions)
     }
 }

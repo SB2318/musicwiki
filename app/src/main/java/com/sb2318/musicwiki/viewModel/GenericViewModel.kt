@@ -1,13 +1,24 @@
 package com.sb2318.musicwiki.viewModel
 
 import android.app.Application
+import android.os.Build
+import android.text.Html
+import android.text.Spanned
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.sb2318.musicwiki.model.Album
+import com.sb2318.musicwiki.model.AlbumResponse
+import com.sb2318.musicwiki.model.Artist
+import com.sb2318.musicwiki.model.ArtistResponse
 import com.sb2318.musicwiki.model.Tag
+import com.sb2318.musicwiki.model.TagInfo
+import com.sb2318.musicwiki.model.TagInfoResponse
 import com.sb2318.musicwiki.model.TagResponse
+import com.sb2318.musicwiki.model.Track
+import com.sb2318.musicwiki.model.TrackResponse
 import com.sb2318.musicwiki.services.DataService
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,11 +27,25 @@ import retrofit2.Response
 class GenericViewModel(application: Application): AndroidViewModel(application) {
 
     private var _listTopTags= MutableLiveData<List<Tag>>()
-    private var _isExpanded = MutableLiveData<Boolean>()
+    private var _tagInfo = MutableLiveData<TagInfo>()
+    private var _listOfAlbums = MutableLiveData<List<Album>>()
+    private var _listOfTracks = MutableLiveData<List<Track>>()
+    private var _listOfArtist= MutableLiveData<List<Artist>>()
 
     val listTopTags: LiveData<List<Tag>>
       get()= _listTopTags
 
+    val tagInfo:LiveData<TagInfo>
+    get()= _tagInfo
+
+    val listOfAlbums:LiveData<List<Album>>
+        get()=_listOfAlbums
+
+    val listOfArtists:LiveData<List<Artist>>
+        get()=_listOfArtist
+
+    val listOfTracks:LiveData<List<Track>>
+        get()=_listOfTracks
 
 
     fun getGeneres(apiKey:String){
@@ -46,5 +71,99 @@ class GenericViewModel(application: Application): AndroidViewModel(application) 
             }
         })
     }
+    fun getTagInfo(tagName:String, apiKey:String){
+
+        val tagInfoResponse= DataService.lastFmService.getTagInfo("tag.getinfo",tagName,apiKey,"json")
+
+        tagInfoResponse.enqueue(object:Callback<TagInfoResponse>{
+            override fun onResponse(
+                call: Call<TagInfoResponse>,
+                response: Response<TagInfoResponse>
+            ) {
+
+                if(response.isSuccessful){
+                    _tagInfo.value= response.body()?.tag
+                }
+            }
+
+            override fun onFailure(call: Call<TagInfoResponse>, t: Throwable) {
+
+                Log.d("TagResponse",t.localizedMessage)
+                Toast.makeText(getApplication(),"Something went wrong,try again",Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+   fun getTopAlbums(tagName:String, apiKey:String){
+
+       val albumResponse= DataService.lastFmService.getTopAlbums("tag.gettopalbums",tagName,apiKey,"json")
+       albumResponse.enqueue(object:Callback<AlbumResponse>{
+           override fun onResponse(call: Call<AlbumResponse>, response: Response<AlbumResponse>) {
+
+               if(response.isSuccessful){
+
+                   _listOfAlbums.value= response.body()?.albums?.album
+               }
+           }
+
+           override fun onFailure(call: Call<AlbumResponse>, t: Throwable) {
+               Log.d("TagResponse",t.localizedMessage)
+               Toast.makeText(getApplication(),"Something went wrong,try again",Toast.LENGTH_SHORT).show()
+           }
+
+       })
+   }
+
+    fun getTopArtists(tagName:String, apiKey:String){
+
+        val artistResponse= DataService.lastFmService.getTopArtists("tag.gettopartists",tagName,apiKey,"json")
+
+        artistResponse.enqueue(object:Callback<ArtistResponse>{
+
+            override fun onResponse(call: Call<ArtistResponse>, response: Response<ArtistResponse>) {
+
+                if(response.isSuccessful){
+
+                    _listOfArtist.value= response.body()?.topartists?.artist
+                }
+            }
+
+            override fun onFailure(call: Call<ArtistResponse>, t: Throwable) {
+                Log.d("TagResponse",t.localizedMessage)
+                Toast.makeText(getApplication(),"Something went wrong,try again",Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    fun getTopTracks(tagName:String, apiKey:String){
+
+        val trackResponse= DataService.lastFmService.getTopTracks("tag.gettoptracks",tagName,apiKey,"json")
+
+        trackResponse.enqueue(object:Callback<TrackResponse>{
+            override fun onResponse(call: Call<TrackResponse>, response: Response<TrackResponse>) {
+
+                if(response.isSuccessful){
+                    _listOfTracks.value= response.body()?.tracks?.track
+                }
+            }
+
+            override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                Log.d("TagResponse",t.localizedMessage)
+                Toast.makeText(getApplication(),"Something went wrong,try again",Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
 
 }
+
+fun getModifiedTextFromHTML(text:String): Spanned? {
+   return  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT)
+    } else {
+        Html.fromHtml(text)
+    }
+}
+

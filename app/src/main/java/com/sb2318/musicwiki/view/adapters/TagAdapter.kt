@@ -12,10 +12,11 @@ import com.sb2318.musicwiki.model.Tag
 import com.sb2318.musicwiki.view.MainActivity
 import com.sb2318.musicwiki.viewModel.GenericViewModel
 
-class TagAdapter(private var listOfTags:List<Tag>)
+class TagAdapter(private var listOfTags:List<Tag>,private val listener:ClickHandler)
     : RecyclerView.Adapter<TagAdapter.TagViewHolder>() {
 
     private var listItemCount=10
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
 
@@ -55,7 +56,15 @@ class TagAdapter(private var listOfTags:List<Tag>)
 
         fun bind(tag: Tag) {
             binding.tagName.text= tag.name
+
+            binding.tagName.setOnClickListener {
+                listener.onClick(tag)
+            }
         }
+    }
+
+    interface ClickHandler{
+        fun onClick(tag:Tag)
     }
 
 
