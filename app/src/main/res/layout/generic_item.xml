@@ -6,10 +6,11 @@
     </data>
 
     <TextView
-        android:layout_width="120dp"
+        android:id="@+id/tagName"
+        android:layout_width="110dp"
         android:layout_height="40dp"
         android:padding="10dp"
-        android:layout_margin="5dp"
+        android:layout_margin="2dp"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:background="@drawable/generic_item_background"
