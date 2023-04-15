@@ -67,7 +67,9 @@ class ArtistDetailsFragment: Fragment(), ArtistAdapter.ArtistClickListener {
 
     override fun onArtistClick(artist: Artist) {
 
-        val actions = ArtistDetailsFragmentDirections.actionArtistDetailsFragmentToArtistProfileFragment(artist.name)
-        navController.navigate(actions)
+        val bundle= Bundle()
+        bundle.putString("ARTIST_NAME",artist.name)
+
+        navController.navigate(R.id.artistProfileFragment,bundle)
     }
 }

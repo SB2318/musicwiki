@@ -17,6 +17,7 @@ import com.sb2318.musicwiki.model.album.AlbumInfo
 import com.sb2318.musicwiki.model.album.AlbumInfoResponse
 import com.sb2318.musicwiki.model.album.AlbumResponse
 import com.sb2318.musicwiki.model.artist.Artist
+import com.sb2318.musicwiki.model.artist.ArtistInfoResponse
 import com.sb2318.musicwiki.model.artist.ArtistResponse
 import com.sb2318.musicwiki.model.tag.Tag
 import com.sb2318.musicwiki.model.tag.TagInfo
@@ -34,7 +35,7 @@ class GenericViewModel(application: Application): AndroidViewModel(application) 
     private var _listOfAlbums = MutableLiveData<List<Album>>()
     private var _listOfTracks = MutableLiveData<List<Track>>()
     private var _listOfArtist= MutableLiveData<List<Artist>>()
-
+    private var _artistInfo = MutableLiveData<Artist>()
     private var _albumInfo= MutableLiveData<AlbumInfo>()
 
     val listTopTags: LiveData<List<Tag>>
@@ -54,6 +55,9 @@ class GenericViewModel(application: Application): AndroidViewModel(application) 
 
     val albumInfo:LiveData<AlbumInfo>
         get()=_albumInfo
+
+   val artistInfo:LiveData<Artist>
+       get()=_artistInfo
 
 
     fun getGeneres(apiKey:String){
@@ -213,6 +217,94 @@ class GenericViewModel(application: Application): AndroidViewModel(application) 
         })
     }
 
+    //  Get Artist Info
+    fun getArtistInfo(artistName:String,apiKey:String){
+
+        val infoResponse = DataService.lastFmService.getArtistInfo("artist.getinfo",artistName,apiKey,"json")
+
+        infoResponse.enqueue(object:Callback<ArtistInfoResponse>{
+            override fun onResponse(
+                call: Call<ArtistInfoResponse>,
+                response: Response<ArtistInfoResponse>
+            ) {
+               if(response.isSuccessful){
+                   _artistInfo.value= response.body()?.artist
+               }
+            }
+
+            override fun onFailure(call: Call<ArtistInfoResponse>, t: Throwable) {
+                Log.d("TagResponse",t.localizedMessage)
+                Toast.makeText(getApplication(),"Something went wrong,try again",Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    // Get artist top tags
+    fun getArtistTopTags(artistName: String,apiKey: String){
+
+        val tagResponse= DataService.lastFmService.getArtistTags("artist.gettoptags",artistName,apiKey,"json")
+
+        tagResponse.enqueue(object:Callback<TagResponse>{
+            override fun onResponse(call: Call<TagResponse>, response: Response<TagResponse>) {
+
+                if(response.isSuccessful){
+                    _listTopTags.value = response.body()?.toptags?.tag
+                }
+            }
+
+            override fun onFailure(call: Call<TagResponse>, t: Throwable) {
+                Log.d("TagResponse",t.localizedMessage)
+                Toast.makeText(getApplication(),"Something went wrong,try again",Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    // Get Artist Tracks
+
+    fun getArtistTopTracks(artistName:String,apiKey:String){
+
+        val trackResponse= DataService.lastFmService.getArtistTrack("artist.gettoptracks",artistName,apiKey,"json")
+
+        trackResponse.enqueue(object:Callback<TrackResponse>{
+
+            override fun onResponse(call: Call<TrackResponse>, response: Response<TrackResponse>) {
+
+                if(response.isSuccessful){
+                    _listOfTracks.value= response.body()?.tracks?.track
+                }
+            }
+
+            override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                Log.d("TagResponse",t.localizedMessage)
+                Toast.makeText(getApplication(),"Something went wrong,try again",Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    //Get artist albums
+
+    fun getArtistTopAlbums(artistName: String,apiKey: String){
+
+        val albumResponse= DataService.lastFmService.getArtistAlbums("artist.gettopalbums",artistName,apiKey,"json")
+
+        albumResponse.enqueue(object:Callback<AlbumResponse>{
+
+            override fun onResponse(call: Call<AlbumResponse>, response: Response<AlbumResponse>) {
+
+                 if(response.isSuccessful){
+                     _listOfAlbums.value= response.body()?.albums?.album
+                 }
+            }
+
+            override fun onFailure(call: Call<AlbumResponse>, t: Throwable) {
+                Log.d("TagResponse",t.localizedMessage)
+                Toast.makeText(getApplication(),"Something went wrong,try again",Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
 
 }
 

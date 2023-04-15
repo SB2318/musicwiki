@@ -66,23 +66,20 @@ class GenericFragment: Fragment(), TagAdapter.ClickHandler {
             binding.expandLessListener.visibility= View.GONE
             binding.expandMoreListener.visibility= View.VISIBLE
             adapter.changeItemCount(true)
-
         }
 
         binding.expandMoreListener.setOnClickListener {
-
             binding.expandLessListener.visibility= View.VISIBLE
             binding.expandMoreListener.visibility= View.GONE
             adapter.changeItemCount(false)
-
         }
-
 
     }
 
     override fun onClick(tag: Tag) {
 
-         val actions =GenericFragmentDirections.actionGenericFragmentToDetailsFragment(tag.name)
-          navController.navigate(actions)
+          val bundle = Bundle()
+          bundle.putString("TAG_NAME",tag.name)
+          navController.navigate(R.id.detailsFragment,bundle)
     }
 }

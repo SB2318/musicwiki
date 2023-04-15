@@ -55,8 +55,8 @@ class AlbumProfileFragment: Fragment(), TagAdapter.ClickHandler {
 
        arguments?.let{
 
-         val  albumName = it.getString("ALBUM")
-        val   artistName= it.getString("ARTIST")
+         val albumName = it.getString("ALBUM")
+        val  artistName= it.getString("ARTIST")
 
            if (albumName != null && artistName != null) {
 
@@ -71,7 +71,16 @@ class AlbumProfileFragment: Fragment(), TagAdapter.ClickHandler {
         activity.viewModel.albumInfo.observe(viewLifecycleOwner){
 
             it?.let {
-                val text = getModifiedTextFromHTML(it.wiki.summary)
+
+                if(it.wiki == null){
+                    if(it.wiki.summary==null) {
+                        val text = getModifiedTextFromHTML(it.wiki.content)
+                        binding.descriptionTextview.text = text
+                    }
+
+                }
+
+                val text = it.wiki?.summary?.let { it1 -> getModifiedTextFromHTML(it1) }
                 binding.descriptionTextview.text= text
 
                 //Load ImageView
@@ -105,7 +114,8 @@ class AlbumProfileFragment: Fragment(), TagAdapter.ClickHandler {
 
     override fun onClick(tag: Tag) {
 
-        val actions = AlbumProfileFragmentDirections.actionAlbumProfileFragmentToDetailsFragment(tag.name)
-        navController.navigate(actions)
+        val bundle = Bundle()
+        bundle.putString("TAG_NAME",tag.name)
+        navController.navigate(R.id.detailsFragment,bundle)
     }
 }

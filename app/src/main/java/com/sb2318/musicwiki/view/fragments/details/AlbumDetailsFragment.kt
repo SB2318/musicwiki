@@ -66,9 +66,6 @@ class AlbumDetailsFragment: Fragment(), AlbumAdapter.AlbumClickListener {
 
     override fun onAlbumClick(album: Album) {
 
-        val actions= AlbumDetailsFragmentDirections.actionAlbumDetailsFragmentToAlbumProfileFragment(album= album.name,artist= album.artist.name,
-            imgUrl= album.image[1].text)
-
         val bundle= Bundle()
         bundle.putString("ALBUM",album.name)
         bundle.putString("ARTIST",album.artist.name)

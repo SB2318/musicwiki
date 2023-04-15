@@ -19,7 +19,6 @@ import com.sb2318.musicwiki.viewModel.getModifiedTextFromHTML
 class DetailsFragment: Fragment() {
 
     private lateinit var binding:FragmentDetailsBinding
-    private val args:DetailsFragmentArgs by navArgs()
     private lateinit var fragment: NavHostFragment
     private lateinit var navController: NavController
 
@@ -44,19 +43,28 @@ class DetailsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Set Fragment Container
-        val ft: FragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
-        val containerFragment= ContainerFragment()
-        val bundle=Bundle()
-        bundle.putString("TAG_VALUE",args.tag);
-        containerFragment.arguments= bundle
-        ft.replace(R.id.fragment_container, containerFragment)
-        ft.commit()
-
-        // Set data
         val activity = requireActivity() as MainActivity
-        binding.genereTitle.text= args.tag
-        activity.viewModel.getTagInfo(args.tag,getString(R.string.api_key))
+        // Set Fragment Container
+        arguments?.let{
+
+            val tag = it.getString("TAG_NAME");
+
+            val ft: FragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+            val containerFragment= ContainerFragment()
+            val bundle=Bundle()
+            bundle.putString("TAG_VALUE",tag);
+            containerFragment.arguments= bundle
+            ft.replace(R.id.fragment_container, containerFragment)
+            ft.commit()
+
+            // Set data
+
+            binding.genereTitle.text= tag
+            if (tag != null) {
+                activity.viewModel.getTagInfo(tag,getString(R.string.api_key))
+            }
+
+        }
 
         activity.viewModel.tagInfo.observe(viewLifecycleOwner){
             it?.let{

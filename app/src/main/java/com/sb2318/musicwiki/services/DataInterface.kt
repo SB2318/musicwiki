@@ -37,6 +37,12 @@ interface DataInterface {
     fun getAlbumInfo(@Query("method") method: String, @Query("api_key") apiKey: String,@Query("artist") artistName:String,
             @Query("album")albumName:String,@Query("format") format:String):Call<AlbumInfoResponse>
 
+
+    @GET("2.0/")
+    fun getAlbumTags(@Query("method") method: String,@Query("artist") artistName:String,
+                     @Query("album") albumName:String, @Query("api_key") apiKey: String,
+                     @Query("format") format:String):Call<TagResponse>
+
     @GET("2.0/")
     fun getArtistInfo(
         @Query("method") method: String, @Query("artist") artistName:String, @Query("api_key") apiKey: String,
@@ -44,9 +50,23 @@ interface DataInterface {
     ):Call<ArtistInfoResponse>
 
     @GET("2.0/")
-    fun getAlbumTags(@Query("method") method: String,@Query("artist") artistName:String,
-                     @Query("album") albumName:String, @Query("api_key") apiKey: String,
+    fun getArtistTags(@Query("method") method: String,@Query("artist") artistName:String,
+                      @Query("api_key") apiKey: String,
                      @Query("format") format:String):Call<TagResponse>
+
+
+    @GET("2.0/")
+    fun getArtistTrack(
+        @Query("method") method: String,@Query("artist") artistName:String,
+        @Query("api_key") apiKey: String,
+        @Query("format") format:String):Call<TrackResponse>
+
+    @GET("2.0/")
+    fun getArtistAlbums(
+        @Query("method") method: String,@Query("artist") artistName:String,
+        @Query("api_key") apiKey: String,
+        @Query("format") format:String
+    ):Call<AlbumResponse>
 
 
 }
