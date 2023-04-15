@@ -7,16 +7,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import com.sb2318.musicwiki.R
-
 import com.sb2318.musicwiki.databinding.FragmentDetailsBinding
-import com.sb2318.musicwiki.model.Tag
 import com.sb2318.musicwiki.view.MainActivity
-import com.sb2318.musicwiki.viewModel.GenericViewModel
 import com.sb2318.musicwiki.viewModel.getModifiedTextFromHTML
 
 

@@ -1,5 +1,9 @@
 package com.sb2318.musicwiki.model
 import com.google.gson.annotations.SerializedName
+import com.sb2318.musicwiki.model.album.Attr
+import com.sb2318.musicwiki.model.album.AttrX
+import com.sb2318.musicwiki.model.album.Image
+import com.sb2318.musicwiki.model.artist.Artist
 
 
 data class TrackResponse(

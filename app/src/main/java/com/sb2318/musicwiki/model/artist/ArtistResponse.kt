@@ -1,6 +1,7 @@
-package com.sb2318.musicwiki.model
+package com.sb2318.musicwiki.model.artist
 
 import com.google.gson.annotations.SerializedName
+import com.sb2318.musicwiki.model.album.Attr
 
 data class ArtistResponse(
     val topartists: Topartists

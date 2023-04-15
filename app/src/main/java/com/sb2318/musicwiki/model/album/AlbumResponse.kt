@@ -1,6 +1,7 @@
-package com.sb2318.musicwiki.model
+package com.sb2318.musicwiki.model.album
 
 import com.google.gson.annotations.SerializedName
+import com.sb2318.musicwiki.model.artist.Artist
 
 data class AlbumResponse(
     val albums: Albums
@@ -16,11 +17,6 @@ data class Album(
     val attr: AttrX,
     val artist: Artist,
     val image: List<Image>,
-    val mbid: String,
-    val name: String,
-    val url: String
-)
-data class Artist(
     val mbid: String,
     val name: String,
     val url: String

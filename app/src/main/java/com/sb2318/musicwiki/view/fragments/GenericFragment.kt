@@ -1,24 +1,20 @@
 package com.sb2318.musicwiki.view.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sb2318.musicwiki.R
 import com.sb2318.musicwiki.databinding.GenericLayoutScreenBinding
-import com.sb2318.musicwiki.model.Tag
+import com.sb2318.musicwiki.model.tag.Tag
 import com.sb2318.musicwiki.view.MainActivity
 import com.sb2318.musicwiki.view.adapters.TagAdapter
-import com.sb2318.musicwiki.viewModel.GenericViewModel
 
 class GenericFragment: Fragment(), TagAdapter.ClickHandler {
 

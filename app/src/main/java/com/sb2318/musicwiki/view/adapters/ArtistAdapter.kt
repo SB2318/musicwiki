@@ -1,17 +1,17 @@
 package com.sb2318.musicwiki.view.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.sb2318.musicwiki.R
 import com.sb2318.musicwiki.databinding.GenereDetailsItemBinding
-import com.sb2318.musicwiki.model.Artist
+import com.sb2318.musicwiki.model.artist.Artist
 
-class ArtistAdapter(private val artists:List<Artist>):RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(){
+
+class ArtistAdapter(private val artists:List<Artist>, private val listener:ArtistClickListener):
+    RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(){
 
 
 
@@ -39,8 +39,15 @@ class ArtistAdapter(private val artists:List<Artist>):RecyclerView.Adapter<Artis
             binding.title.text= artist.name
             binding.artist.visibility= View.GONE
 
-
+           binding.cardviewItem.setOnClickListener {
+            listener.onArtistClick(artist)
+          }
         }
 
+    }
+
+    interface ArtistClickListener{
+
+        fun onArtistClick(artist:Artist)
     }
 }

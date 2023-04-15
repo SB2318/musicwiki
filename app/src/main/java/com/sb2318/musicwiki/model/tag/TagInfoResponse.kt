@@ -1,4 +1,4 @@
-package com.sb2318.musicwiki.model
+package com.sb2318.musicwiki.model.tag
 
 data class TagInfoResponse(
     val tag: TagInfo
@@ -13,5 +13,6 @@ data class TagInfo(
 
 data class Wiki(
     val content: String,
-    val summary: String
+    val summary: String,
+    val published: String,
 )

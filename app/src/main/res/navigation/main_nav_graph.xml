@@ -21,5 +21,37 @@
             android:name="tag"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/albumDetailsFragment"
+        android:name="com.sb2318.musicwiki.view.fragments.details.AlbumDetailsFragment"
+        android:label="AlbumDetailsFragment" >
+        <action
+            android:id="@+id/action_albumDetailsFragment_to_albumProfileFragment"
+            app:destination="@id/albumProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumProfileFragment"
+        android:name="com.sb2318.musicwiki.view.fragments.profile.AlbumProfileFragment"
+        android:label="AlbumProfileFragment" >
+        <argument
+            android:name="album"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/artistDetailsFragment"
+        android:name="com.sb2318.musicwiki.view.fragments.details.ArtistDetailsFragment"
+        android:label="ArtistDetailsFragment" >
+        <action
+            android:id="@+id/action_artistDetailsFragment_to_artistProfileFragment"
+            app:destination="@id/artistProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/artistProfileFragment"
+        android:name="com.sb2318.musicwiki.view.fragments.profile.ArtistProfileFragment"
+        android:label="ArtistProfileFragment" >
+        <argument
+            android:name="artist"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

@@ -1,4 +1,4 @@
-package com.sb2318.musicwiki.model
+package com.sb2318.musicwiki.model.tag
 
 import java.io.Serializable
 

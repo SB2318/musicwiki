@@ -1,18 +1,14 @@
 package com.sb2318.musicwiki.view.adapters
 
-import android.content.Context
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sb2318.musicwiki.R
 import com.sb2318.musicwiki.databinding.GenericItemBinding
-import com.sb2318.musicwiki.model.Tag
-import com.sb2318.musicwiki.view.MainActivity
-import com.sb2318.musicwiki.viewModel.GenericViewModel
+import com.sb2318.musicwiki.model.tag.Tag
 
-class TagAdapter(private var listOfTags:List<Tag>,private val listener:ClickHandler)
+class TagAdapter(private var listOfTags:List<Tag>, private val listener:ClickHandler)
     : RecyclerView.Adapter<TagAdapter.TagViewHolder>() {
 
     private var listItemCount=10

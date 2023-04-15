@@ -9,16 +9,17 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.sb2318.musicwiki.model.Album
-import com.sb2318.musicwiki.model.AlbumResponse
-import com.sb2318.musicwiki.model.Artist
-import com.sb2318.musicwiki.model.ArtistResponse
-import com.sb2318.musicwiki.model.Tag
-import com.sb2318.musicwiki.model.TagInfo
-import com.sb2318.musicwiki.model.TagInfoResponse
-import com.sb2318.musicwiki.model.TagResponse
+
 import com.sb2318.musicwiki.model.Track
 import com.sb2318.musicwiki.model.TrackResponse
+import com.sb2318.musicwiki.model.album.Album
+import com.sb2318.musicwiki.model.album.AlbumResponse
+import com.sb2318.musicwiki.model.artist.Artist
+import com.sb2318.musicwiki.model.artist.ArtistResponse
+import com.sb2318.musicwiki.model.tag.Tag
+import com.sb2318.musicwiki.model.tag.TagInfo
+import com.sb2318.musicwiki.model.tag.TagInfoResponse
+import com.sb2318.musicwiki.model.tag.TagResponse
 import com.sb2318.musicwiki.services.DataService
 import retrofit2.Call
 import retrofit2.Callback

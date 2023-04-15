@@ -10,7 +10,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.sb2318.musicwiki.R
 import com.sb2318.musicwiki.databinding.FragmentContainerBinding
-import com.sb2318.musicwiki.model.Tag
 import com.sb2318.musicwiki.view.adapters.ViewPagerAdapter
 
 class ContainerFragment: Fragment() {
