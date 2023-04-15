@@ -13,6 +13,8 @@ import androidx.lifecycle.MutableLiveData
 import com.sb2318.musicwiki.model.Track
 import com.sb2318.musicwiki.model.TrackResponse
 import com.sb2318.musicwiki.model.album.Album
+import com.sb2318.musicwiki.model.album.AlbumInfo
+import com.sb2318.musicwiki.model.album.AlbumInfoResponse
 import com.sb2318.musicwiki.model.album.AlbumResponse
 import com.sb2318.musicwiki.model.artist.Artist
 import com.sb2318.musicwiki.model.artist.ArtistResponse
@@ -33,6 +35,8 @@ class GenericViewModel(application: Application): AndroidViewModel(application) 
     private var _listOfTracks = MutableLiveData<List<Track>>()
     private var _listOfArtist= MutableLiveData<List<Artist>>()
 
+    private var _albumInfo= MutableLiveData<AlbumInfo>()
+
     val listTopTags: LiveData<List<Tag>>
       get()= _listTopTags
 
@@ -47,6 +51,9 @@ class GenericViewModel(application: Application): AndroidViewModel(application) 
 
     val listOfTracks:LiveData<List<Track>>
         get()=_listOfTracks
+
+    val albumInfo:LiveData<AlbumInfo>
+        get()=_albumInfo
 
 
     fun getGeneres(apiKey:String){
@@ -157,6 +164,55 @@ class GenericViewModel(application: Application): AndroidViewModel(application) 
 
         })
     }
+
+    fun getAlbumInfo(albumName:String, artistName:String,apiKey:String){
+
+        val infoResponse = DataService.lastFmService.getAlbumInfo("album.getinfo",
+                  apiKey,artistName,albumName,"json")
+
+        infoResponse.enqueue(object:Callback<AlbumInfoResponse>{
+            override fun onResponse(
+                call: Call<AlbumInfoResponse>,
+                response: Response<AlbumInfoResponse>
+            ) {
+                if(response.isSuccessful) {
+                    _albumInfo.value = response.body()?.album
+                }
+            }
+
+            override fun onFailure(call: Call<AlbumInfoResponse>, t: Throwable) {
+                Log.d("TagResponse",t.localizedMessage)
+                Toast.makeText(getApplication(),"Something went wrong,try again",Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    fun getTopTagsByAlbum(artistName:String, albumName: String,apiKey:String){
+
+        val tagResponse = DataService.lastFmService.getAlbumTags("album.gettoptags",
+               artistName,albumName,apiKey,"json")
+
+        tagResponse.enqueue(object:Callback<TagResponse>{
+
+            override fun onResponse(call: Call<TagResponse>, response: Response<TagResponse>) {
+
+                val body = response.body();
+
+                Log.d("Response",body.toString())
+                if(response.isSuccessful){
+                    _listTopTags.value= body?.toptags?.tag
+
+                }
+            }
+
+            override fun onFailure(call: Call<TagResponse>, t: Throwable) {
+                Log.d("TagResponse",t.localizedMessage)
+                Toast.makeText(getApplication(),"Something went wrong,try again",Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 
 }
 
