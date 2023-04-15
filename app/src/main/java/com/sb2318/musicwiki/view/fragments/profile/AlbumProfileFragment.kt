@@ -72,16 +72,10 @@ class AlbumProfileFragment: Fragment(), TagAdapter.ClickHandler {
 
             it?.let {
 
-                if(it.wiki == null){
-                    if(it.wiki.summary==null) {
-                        val text = getModifiedTextFromHTML(it.wiki.content)
-                        binding.descriptionTextview.text = text
-                    }
-
+                it.wiki?.let{itW->
+                    val text = getModifiedTextFromHTML(itW.summary)
+                    binding.descriptionTextview.text= text
                 }
-
-                val text = it.wiki?.summary?.let { it1 -> getModifiedTextFromHTML(it1) }
-                binding.descriptionTextview.text= text
 
                 //Load ImageView
                 Glide.with(requireContext()).load(it.image[1].text)
@@ -105,7 +99,7 @@ class AlbumProfileFragment: Fragment(), TagAdapter.ClickHandler {
         }
 
         binding.backListener.setOnClickListener {
-            navController.popBackStack(R.id.genericFragment,false)
+            navController.popBackStack()
         }
 
     }

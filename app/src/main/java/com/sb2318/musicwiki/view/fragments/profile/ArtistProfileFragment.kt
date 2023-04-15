@@ -20,6 +20,7 @@ import com.sb2318.musicwiki.view.adapters.AlbumAdapter
 import com.sb2318.musicwiki.view.adapters.TagAdapter
 import com.sb2318.musicwiki.view.adapters.TrackAdapter
 import com.sb2318.musicwiki.viewModel.getModifiedTextFromHTML
+import com.sb2318.musicwiki.viewModel.processString
 
 class ArtistProfileFragment:Fragment(), TagAdapter.ClickHandler, AlbumAdapter.AlbumClickListener {
 
@@ -72,13 +73,11 @@ class ArtistProfileFragment:Fragment(), TagAdapter.ClickHandler, AlbumAdapter.Al
             it?.let{
                 item->
                 binding.artistName.text= item.name
-                binding.playCount.text= item.stats.playcount
-                binding.followersCount.text= item.stats.listeners
+                binding.playCount.text= processString(item.stats.playcount)
+                binding.followersCount.text= processString(item.stats.listeners)
                 val text= getModifiedTextFromHTML(item.bio.summary)
                 binding.descriptionTextview.text= text
-                // Set image
-                Glide.with(requireContext()).load(item.image[1].text)
-                    .into(binding.imageBg)
+
             }
         }
 
@@ -124,7 +123,7 @@ class ArtistProfileFragment:Fragment(), TagAdapter.ClickHandler, AlbumAdapter.Al
 
         //Set Back Listener
         binding.backListener.setOnClickListener {
-            navController.popBackStack(R.id.genericFragment,false)
+            navController.popBackStack()
         }
 
     }

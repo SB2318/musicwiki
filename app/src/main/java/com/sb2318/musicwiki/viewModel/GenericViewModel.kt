@@ -27,6 +27,7 @@ import com.sb2318.musicwiki.services.DataService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Integer.parseInt
 
 class GenericViewModel(application: Application): AndroidViewModel(application) {
 
@@ -314,5 +315,19 @@ fun getModifiedTextFromHTML(text:String): Spanned? {
     } else {
         Html.fromHtml(text)
     }
+}
+
+fun processString(strText:String):String{
+
+    val number= parseInt(strText)
+
+    if(number>=1000)
+        return "${(number/1000)}K"
+    else if(number>=1000000)
+        return "${(number/1000000)}M"
+
+    else
+        return strText
+
 }
 

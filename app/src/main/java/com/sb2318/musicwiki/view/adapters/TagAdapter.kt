@@ -39,7 +39,7 @@ class TagAdapter(private var listOfTags:List<Tag>, private val listener:ClickHan
 
     fun changeItemCount(choice:Boolean){
 
-        listItemCount = if(choice)
+        listItemCount = if(choice|| listOfTags.size<=10)
             listOfTags.size
         else
             10
